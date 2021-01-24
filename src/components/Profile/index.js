@@ -1,12 +1,21 @@
-import React from "react";
+import React from 'react'
 
 export default class Profile extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor (props) {
+    super(props)
+    this.state = {}
   }
 
-  render() {
-    return <p>Profile Component</p>;
+  componentDidMount () {
+    console.log(this.props.user, 'user form App component')
+  }
+
+  render () {
+    let { user } = this.props
+    return (
+      <section>
+        <p>Profile Component</p>
+      </section>
+    )
   }
 }

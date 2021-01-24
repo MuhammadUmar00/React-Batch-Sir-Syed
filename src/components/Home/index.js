@@ -1,81 +1,30 @@
-import React from "react";
-import Profile from "../Profile";
+import React from 'react'
+import { connect } from 'react-redux'
 
-export default class Home extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      clock: new Date().getSeconds(),
-      showResume: false,
-      navigate: false,
-    };
-  }
-
-  //   componentDidMount() {
-  //     // very first time after render()
-  //     console.log("DID MOUNT");
-  //     // this.timerID = setInterval(() => {
-  //     //   this.setState({ clock: new Date().getSeconds() });
-  //     // }, 1000);
-  //   }
-
-  //   componentDidUpdate() {
-  //     // on re-render or update
-  //     console.log("DID UPDATE");
-  //   }
-
-  //   componentDidCatch() {
-  //     // on error
-  //     console.log("DID CATCH");
-  //   }
-
-  //   componentWillUnmount() {
-  //     // when component  is going to end
-  //     console.log("HOME UNMOUNT");
-  //   }
-
-  _doNavigate = () => {
-    this.setState({ navigate: true });
-  };
-
-  _toggleResume = () => {
-    this.setState({ showResume: !this.state.showResume });
-  };
-
-  _stopClock = () => {
-    console.log("CLOCK STOPPED");
-    // clearInterval(this.timerID);
-    this._toggleResume();
-    this._doNavigate();
-  };
-
-  _resumeClock = () => {
-    console.log("CLOCK RESUMED");
-    this.timerID = setInterval(() => {
-      this.setState({ clock: new Date().getSeconds() });
-    }, 1000);
-    this._toggleResume();
-  };
-
-  render() {
-    console.log("RENDER");
-    let { clock, showResume, navigate } = this.state;
-    return (
+function Home () {
+  return (
+    <section>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <p>Home Component </p>
-        <p>{clock}</p>
-        <button onClick={this._stopClock}>Stop Clock</button>
-        {showResume === true && (
-          <button onClick={this._resumeClock}>Resume Clock</button>
-        )}
       </div>
-    );
-  }
+    </section>
+  )
 }
+
+export default connect(
+  state => {
+    console.log('State recieved to Home Component', state)
+    return {}
+  }, // map state to props
+  props => {
+    console.log('Props recieved to Home Component', props)
+    return {}
+  } // map dispatch to props
+)(Home)

@@ -1,30 +1,38 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
+import Cart from "../Cart";
 
-function Home () {
+function Home() {
   return (
-    <section>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <p>Home Component </p>
-      </div>
-    </section>
-  )
+    <Cart />
+    // <Main>
+    //   <Nav>
+    //     <div></div>
+    //   </Nav>
+
+    //   <Section>
+    //     <Aside>
+    //       <div></div>
+    //     </Aside>
+    //     <Content>
+    //       <div></div>
+    //     </Content>
+    //   </Section>
+
+    //   <Footer>
+    //     <div></div>
+    //   </Footer>
+    // </Main>
+  );
 }
 
 export default connect(
-  state => {
-    console.log('State recieved to Home Component', state)
-    return {}
+  (state) => {
+    console.log("State recieved to Home Component", state);
+    return {};
   }, // map state to props
-  props => {
-    console.log('Props recieved to Home Component', props)
-    return {}
+  (props) => {
+    console.log("Props recieved to Home Component", props);
+    return {};
   } // map dispatch to props
-)(Home)
+)(Home);

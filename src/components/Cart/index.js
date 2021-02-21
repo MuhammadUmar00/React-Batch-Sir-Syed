@@ -1,57 +1,152 @@
-import React from "react";
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import Constants from "../../constants";
+import * as cartActions from "../../redux/actions/cartActions";
 
-const Cart = () => {
-  const [cartItems, setCartItems] = React.useState([
-    { itemId: 1, itemName: "ITEM1" },
-    { itemId: 2, itemName: "ITEM2" },
-    { itemId: 3, itemName: "ITEM3" },
-  ]);
-  const [cartItemObj, setCartItemsObj] = React.useState({
-    itemId: 3,
-    itemName: "ITEM3",
-  });
+// const Cart = (props) => {
+//   const [cartItems, setCartItems] = React.useState([]);
 
-  const { Cart } = Constants.Icons;
+//   const { Cart } = Constants.Icons;
 
-  return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <img src={Cart.default} />
+//   let {
+//     cartReducer: { previousCartItems },
+//     dispatch,
+//   } = props;
 
-        <h1>Shopping Cart</h1>
+//   const actionCtx = bindActionCreators(cartActions, dispatch);
 
-        <span>Total Items : {cartItems.length}</span>
+//   useEffect(() => {
+//     setCartItems(previousCartItems);
+//   }, []);
+
+//   const deleteItem = () => {
+//     dispatch(actionCtx.deleteCartItem());
+//   };
+
+//   return (
+//     <div>
+//       <div
+//         style={{
+//           display: "flex",
+//           flexDirection: "row",
+//           justifyContent: "space-between",
+//           alignItems: "center",
+//         }}
+//       >
+//         <img src={Cart.default} />
+
+//         <h1>Shopping Cart</h1>
+
+//         <span>Total Items : {cartItems.length}</span>
+//       </div>
+
+//       <div
+//         style={{
+//           display: "flex",
+//           flexDirection: "row",
+//           justifyContent: "center",
+//         }}
+//       >
+//         <ul>
+//           {cartItems.map((item = {}) => {
+//             return (
+//               <li key={item.itemId}>
+//                 {item.itemName}
+//                 <button onClick={() => deleteItem()}>Delete</button>
+//                 <button>Update</button>
+//               </li>
+//             );
+//           })}
+//         </ul>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default connect((state) => state)(Cart);
+
+class Cart extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cartItems: [],
+    };
+  }
+
+  componentDidMount() {
+    const {
+      cartReducer: { cartItems },
+    } = this.props;
+    this.setState({ cartItems });
+  }
+
+  componentDidUpdate(thisProps, prevState) {
+    if (this.props.cartReducer.cartItems.length != prevState.cartItems.length) {
+      this.setState({ cartItems: this.props.cartReducer.cartItems });
+    }
+  }
+
+  deleteItem = (id) => {
+    const { deleteItem } = this.props;
+    deleteItem(id);
+  };
+
+  render() {
+    const { cartItems } = this.state;
+    const { Cart } = Constants.Icons;
+
+    return (
+      <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <img src={Cart.default} />
+
+          <h1>Shopping Cart</h1>
+
+          <span>Total Items : {cartItems.length}</span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <ul>
+            {cartItems.map((item = {}) => {
+              return (
+                <li key={item.itemId}>
+                  {item.itemName}
+                  <button onClick={() => this.deleteItem(item.itemId)}>
+                    Delete
+                  </button>
+                  <button>Update</button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
+    );
+  }
+}
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <ul>
-          {cartItems.map((item = {}) => {
-            return <li key={item.itemId}>{item.itemName}</li>;
-          })}
-        </ul>
+const mapStateToProps = (state) => state;
 
-        <ul>
-          {Object.keys(cartItemObj).map((item, index) => {
-            return <li>{item}</li>;
-          })}
-        </ul>
-      </div>
-    </div>
-  );
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteItem: (id) => {
+      dispatch(cartActions.deleteCartItem(id));
+    },
+  };
 };
 
-export default Cart;
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

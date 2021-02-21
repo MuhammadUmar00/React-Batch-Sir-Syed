@@ -26,13 +26,4 @@ function Home() {
   );
 }
 
-export default connect(
-  (state) => {
-    console.log("State recieved to Home Component", state);
-    return {};
-  }, // map state to props
-  (props) => {
-    console.log("Props recieved to Home Component", props);
-    return {};
-  } // map dispatch to props
-)(Home);
+export default Home;
